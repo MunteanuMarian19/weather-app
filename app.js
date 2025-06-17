@@ -69,7 +69,7 @@ const setupEventListeners = () => {
 document.addEventListener("DOMContentLoaded", () => {
   setupEventListeners();
   hideLoading();
-  // Initial load without spinner:
+  // Initial load
   getCurrentWeather("Province of Turin")
     .then((data) => displayWeatherData(data))
     .catch((err) => showError(err.message));

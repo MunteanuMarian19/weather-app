@@ -14,17 +14,29 @@
       </header>
 
       <main>
-        <input type="text" id="city-input" />
-        <button id="search-btn">Cauta</button>
-        <button id="location-btn">Folosește locația</button>
+        <div id="search-div">
+          <input type="text" id="city-input" />
+          <button id="search-btn">Cauta</button>
+          <button id="location-btn">Folosește locația</button>
+        </div>
 
         <!-- animations for searching and errors -->
-        <div id="loading"></div>
+        <div id="loading" class="hidden"></div>
         <div id="error"></div>
 
         <!-- displaying data -->
         <div id="weather-display" class="hidden">
           <h2 id="city-name"></h2>
+
+          <!-- Temperature Unit Toggle -->
+          <div id="temp-toggle">
+            <label class="switch">
+              <input type="checkbox" id="unit-toggle" />
+              <span class="slider round"></span>
+            </label>
+            <span id="unit-label">°C</span>
+          </div>
+
           <p id="temp"></p>
           <p id="feels-like"></p>
           <p id="description"></p>

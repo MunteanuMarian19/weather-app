@@ -1,12 +1,13 @@
 Weather App 🌦️
 A simple web application that shows the current weather for any city you enter or for your current location, with support for:
 
-Search by city name
-Use your current location (GPS with IP fallback)
-Language selection for descriptions (ro, en, fr, es, de)
-Unit toggle between Celsius (°C) and Fahrenheit (°F)
-Graceful error handling and fallback mock data when the API fails
-Preference persistence (units & language stored in localStorage)
+- Search by city name
+- Use your current location (GPS with IP fallback)
+- Language selection for descriptions (ro, en, fr, es, de)
+- Unit toggle between Celsius (°C) and Fahrenheit (°F)
+- Graceful error handling and fallback mock data when the API fails
+- Preference persistence (units & language stored in localStorage)
+
 🚀 Features
 🔍 City Search
 📍 Geolocation with automatic IP-based fallback
@@ -14,11 +15,12 @@ Preference persistence (units & language stored in localStorage)
 🌡️ Unit Toggle (°C / °F)
 🔄 Graceful Degradation: falls back to mock data if API or network fails
 💾 User Preferences remembered between visits
-🛠️ Tech Stack
+🛠️ Tech Stack:
 Vanilla JavaScript (ES6 Modules)
 Fetch API for HTTP requests
 HTML5 & CSS3
 LocalStorage for saving user preferences
+
 📦 Installation
 Clone the repository
 git clone https://github.com/USERNAME/weather-app.git

@@ -3,66 +3,117 @@ import {
   showLoading,
   hideLoading,
   showError,
+  showMessage,
   hideError,
   displayWeatherData,
-  refreshWeather,
+  saveUserPreferences,
+  loadUserPreferences,
 } from "./modules/ui-controller.js";
+
+import { CONFIG } from "./modules/config.js";
 import {
-  getCurrentWeather,
+  getCurrentWeatherWithFallback,
   getWeatherByCoord,
 } from "./modules/weather-service.js";
 import { getCoords } from "./modules/location-service.js";
 
-const isValidCity = (city) =>
-  city.length >= 2 && /^[a-zA-ZăâîșțĂÂÎȘȚ\s-]+$/.test(city);
+// —————————————————————————————————————
+// 1) On load: apply saved prefs
+// —————————————————————————————————————
+const prefs = loadUserPreferences();
+elements.tempToggle.checked = prefs.isF;
+elements.langSelect.value = prefs.lang;
+CONFIG.DEFAULT_UNITS = prefs.isF ? "imperial" : "metric";
+CONFIG.DEFAULT_LANG = prefs.lang;
 
-const handleSearch = async () => {
+// —————————————————————————————————————
+// 2) Core action: search by city
+// —————————————————————————————————————
+async function handleSearch() {
   const city = elements.cityInput.value.trim();
-  if (!isValidCity(city)) return showError("Please enter a valid city name");
+  if (city.length < 2) return showError("Introduceți un nume valid");
+
+  // persist & apply prefs before calling
+  saveUserPreferences(elements.tempToggle.checked, elements.langSelect.value);
+  CONFIG.DEFAULT_UNITS = elements.tempToggle.checked ? "imperial" : "metric";
+  CONFIG.DEFAULT_LANG = elements.langSelect.value;
 
   hideError();
   showLoading();
   try {
-    const data = await getCurrentWeather(city);
-    // raw API response
-    console.log("Raw API data:", data);
+    // use fallback wrapper so we always get data
+    const data = await getCurrentWeatherWithFallback(city);
+    if (data.isFallback) {
+      showMessage("Using fallback data (API failed)", "warning");
+    }
     displayWeatherData(data);
   } catch (err) {
     showError(err.message);
   } finally {
     hideLoading();
   }
-};
+}
 
-const handleLocation = async () => {
+// —————————————————————————————————————
+// 3) Core action: search by location
+// —————————————————————————————————————
+async function handleLocationSearch() {
   hideError();
   showLoading();
   try {
     const coords = await getCoords();
+    if (coords.source === "ip") {
+      showMessage("Locație aproximativă (IP)", "warning");
+    }
     const data = await getWeatherByCoord(coords.latitude, coords.longitude);
-    console.log("Raw API data (by coords):", data);
     displayWeatherData(data);
   } catch (err) {
-    showError(err.message);
+    showError("Locația nu a putut fi determinată: " + err.message);
   } finally {
     hideLoading();
   }
-};
+}
 
-const setupEventListeners = () => {
-  elements.searchBtn.addEventListener("click", handleSearch);
-  elements.cityInput.addEventListener("keydown", (e) => {
-    if (e.key === "Enter") handleSearch();
+// —————————————————————————————————————
+// 4) Event hookups
+// —————————————————————————————————————
+function setupEventListeners() {
+  // Form submit (Enter or "Caută")
+  document.getElementById("search-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    handleSearch();
   });
-  elements.locationBtn.addEventListener("click", handleLocation);
 
+  // Location button
+  elements.locationBtn.addEventListener("click", handleLocationSearch);
+
+  // Unit toggle → save + re-run same flow
   elements.tempToggle.addEventListener("change", () => {
-    // Re-render with the correct unit
-    refreshWeather();
-  });
-};
+    saveUserPreferences(elements.tempToggle.checked, elements.langSelect.value);
+    CONFIG.DEFAULT_UNITS = elements.tempToggle.checked ? "imperial" : "metric";
 
+    const city = elements.cityInput.value.trim();
+    if (city) handleSearch();
+    else handleLocationSearch();
+  });
+
+  // Language select → save + re-run
+  elements.langSelect.addEventListener("change", () => {
+    saveUserPreferences(elements.tempToggle.checked, elements.langSelect.value);
+    CONFIG.DEFAULT_LANG = elements.langSelect.value;
+
+    const city = elements.cityInput.value.trim();
+    if (city) handleSearch();
+    else handleLocationSearch();
+  });
+}
+
+// —————————————————————————————————————
+// 5) Kickoff
+// —————————————————————————————————————
 document.addEventListener("DOMContentLoaded", () => {
   setupEventListeners();
-  hideLoading();
+  // Optionally: pre-load weather for a default city:
+  // elements.cityInput.value = "Bucharest";
+  // handleSearch();
 });

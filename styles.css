@@ -1,4 +1,384 @@
+/* ───────────── Reset & Base ───────────── */
 * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  background: linear-gradient(to right, #6dd5ed, #2193b0);
+  color: #fff;
+  text-align: center;
+  padding: 2rem;
+}
+
+.hidden {
+  display: none;
+}
+
+/* ───────────── Inputs & Buttons ───────────── */
+input,
+button {
+  padding: 0.5rem;
+  margin: 0.5rem;
+  border-radius: 5px;
+  border: none;
+}
+
+input {
+  padding: 9px;
+  max-width: -webkit-fill-available;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+/* ───────────── Loading Spinner ───────────── */
+#loading {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  border-top: 4px solid #007bff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ───────────── Weather Display ───────────── */
+#weather-display {
+  margin: auto;
+  margin-top: 0;
+  border: 2px solid white;
+  border-radius: 20px;
+  padding: 15px;
+}
+
+#weather-display > * {
+  margin: 0.75rem 0;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.5rem;
+  border-radius: 6px;
+}
+
+#weather-display > *:last-child {
+  margin-bottom: 0;
+}
+
+#weather-display img {
+  display: block;
+  margin: 1rem auto;
+}
+
+/* ───────────── Unit Toggle (°C/°F) ───────────── */
+#temp-toggle {
+  margin: 20px;
+}
+
+#unit-label {
+  margin-left: 8px;
+  font-size: 0.9rem;
+  vertical-align: middle;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;
+  height: 24px;
+  vertical-align: middle;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  inset: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+}
+
+.switch input:checked + .slider {
+  background-color: #2196f3;
+}
+
+.switch input:checked + .slider:before {
+  transform: translateX(26px);
+}
+
+.slider.round {
+  border-radius: 24px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.unit-labels {
+  display: inline-flex;
+  justify-content: space-between;
+  width: 60px;
+  margin-left: 8px;
+  font-size: 0.9rem;
+  user-select: none;
+}
+
+.unit-labels .label-c,
+.unit-labels .label-f {
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+
+.switch input:not(:checked) ~ .unit-labels .label-c,
+.switch input:checked ~ .unit-labels .label-f {
+  opacity: 1;
+  font-weight: bold;
+}
+
+/* ───────────── Search Area ───────────── */
+#search-div {
+  margin: 30px;
+}
+
+#search-btn,
+#location-btn {
+  padding: 8px;
+}
+
+#city-name {
+  padding: 10px;
+  margin-top: 12px;
+}
+
+/* ───────────── Search History Section ───────────── */
+.history-section {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  margin: auto;
+  margin-top: 0;
+  border: 2px solid white;
+  border-radius: 20px;
+  padding: 15px;
+}
+
+.history-section h3 {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  padding: 10px;
+  margin-top: 12px;
+}
+
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.history-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateX(5px);
+}
+
+.history-location {
+  display: flex;
+  flex-direction: column;
+}
+
+.history-location .city {
+  font-weight: 600;
+}
+
+.history-location .country {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.history-time {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.clear-history-btn {
+  width: 100%;
+  padding: 0.5rem;
+  background: rgba(255, 99, 99, 0.2);
+  color: #ff6363;
+  border: 1px solid rgba(255, 99, 99, 0.3);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.clear-history-btn:hover {
+  background: rgba(255, 99, 99, 0.3);
+}
+
+.no-history {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+  padding: 1rem;
+}
+
+/* ───────────── Dev Tools Panel ───────────── */
+.dev-tools {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 300px;
+  max-height: 300px;
+  background: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  font-family: "Courier New", monospace;
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+}
+
+.dev-tools.hidden {
+  display: none;
+}
+
+.log-display {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.dev-tools-buttons {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.dev-tools-buttons button {
+  flex: 1;
+  padding: 0.4rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.log-clear-confirm {
+  margin-bottom: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  background: rgba(0, 255, 0, 0.2);
+  color: #0f0;
+  font-size: 0.8rem;
+  border-radius: 4px;
+  text-align: center;
+}
+
+/* ───────────── Toggle Logs Button ───────────── */
+.toggle-logs-btn {
+  position: fixed;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.8rem;
+  opacity: 0.7;
+  cursor: pointer;
+  z-index: 1100;
+}
+
+.toggle-logs-btn:hover {
+  opacity: 1;
+}
+
+/* ───────────── Results Layout ───────────── */
+.results-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+
+.results-container > div {
+  flex: 1 1 300px;
+  max-width: 400px;
+}
+
+/* ───────────── Mobile Responsive ───────────── */
+@media (max-width: 600px) {
+  .history-section {
+    margin-top: 1rem;
+    padding: 1rem;
+  }
+
+  .history-item {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .dev-tools {
+    bottom: 10px;
+    right: 10px;
+    left: 10px;
+    width: auto;
+  }
+
+  .results-container {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .results-container > div {
+    flex: none;
+    max-width: none;
+    width: 100%;
+  }
+}
+
+/* ======================== original ========================= */
+/* * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -53,7 +433,6 @@ button:hover {
   padding: 15px;
 }
 
-/* Give each line in the weather display some vertical margin */
 #weather-display > * {
   margin: 0.75rem 0;
 
@@ -62,7 +441,6 @@ button:hover {
   border-radius: 6px;
 }
 
-/* Prevent extra bottom margin on the very last element */
 #weather-display > *:last-child {
   margin-bottom: 0;
 }
@@ -183,14 +561,12 @@ button:hover {
   font-weight: bold;
 }
 
-/* Istoric de căutări */
 .history-section {
   margin-top: 2rem;
   padding: 1.5rem;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 12px;
   backdrop-filter: blur(10px);
-  /* Safari */
   -webkit-backdrop-filter: blur(10px);
 }
 
@@ -259,7 +635,6 @@ button:hover {
   padding: 1rem;
 }
 
-/* Dev Tools (opțional) */
 .dev-tools {
   position: fixed;
   bottom: 20px;
@@ -284,24 +659,88 @@ button:hover {
   border-radius: 4px;
 }
 
-/* ─── Results Two-Column Layout ─── */
+.toggle-logs-btn {
+  position: fixed;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.8rem;
+  opacity: 0.7;
+  cursor: pointer;
+  z-index: 1100;
+}
+.toggle-logs-btn:hover {
+  opacity: 1;
+}
+
+.dev-tools {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 300px;
+  max-height: 300px;
+  background: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  font-family: "Courier New", monospace;
+  font-size: 0.8rem;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+}
+
+.dev-tools.hidden {
+  display: none;
+}
+
+.log-display {
+  flex: 1 1 auto;
+  overflow-y: auto;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.dev-tools-buttons {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.dev-tools-buttons button {
+  flex: 1;
+  padding: 0.4rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.log-clear-confirm {
+  margin-bottom: 0.5rem;
+  padding: 0.25rem 0.5rem;
+  background: rgba(0, 255, 0, 0.2);
+  color: #0f0;
+  font-size: 0.8rem;
+  border-radius: 4px;
+  text-align: center;
+}
+
 .results-container {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: flex-start; /* all panels’ tops line up */
-  gap: 2rem; /* spacing between panels */
+  align-items: flex-start;
+  gap: 2rem;
   margin-top: 2rem;
 }
 
-/* each panel flexes equally, up to 400px */
 .results-container > div {
-  flex: 1 1 300px; /* base 300px, grow/shrink equally */
-  max-width: 400px; /* never exceed 400px */
-  /* no explicit width, so both panels match */
+  flex: 1 1 300px;
+  max-width: 400px;
 }
 
-/* ─── Stack on small screens ─── */
 @media (max-width: 600px) {
   .history-section {
     margin-top: 1rem;
@@ -323,12 +762,12 @@ button:hover {
 
   .results-container {
     flex-direction: column;
-    gap: 1.5rem; /* vertical spacing */
+    gap: 1.5rem;
   }
 
   .results-container > div {
-    flex: none; /* don’t flex, use full width */
+    flex: none;
     max-width: none;
-    width: 100%; /* ensure both are same width */
+    width: 100%;
   }
-}
+} */

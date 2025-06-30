@@ -83,15 +83,8 @@ export const refreshWeather = () => {
 };
 
 function _render(data, isFahrenheit) {
-  // temperature conversions
-  const c = data.main.temp;
-  const toC = (v) => v.toFixed(1);
-  const toF = (v) => ((v * 9) / 5 + 32).toFixed(1);
-
-  const tempVal = isFahrenheit ? toF(c) : toC(c);
-  const feelsVal = isFahrenheit
-    ? toF(data.main.feels_like)
-    : toC(data.main.feels_like);
+  const tempVal = data.main.temp.toFixed(1);
+  const feelsVal = data.main.feels_like.toFixed(1);
   const symbol = isFahrenheit ? "°F" : "°C";
 
   elements.cityName.textContent = `${data.name} – ${data.sys.country}`;

@@ -1,4 +1,3 @@
-// app.js
 import {
   elements,
   showLoading,
@@ -102,8 +101,7 @@ async function handleSearch() {
       fallback: Boolean(data.isFallback),
     });
 
-    // // reset form only on a *real* API response
-    // if (!data.isFallback) document.querySelector("#search-form").reset();
+    // reset form only on a *real* API response
     // Clear only the city input when a real city is found
     if (!data.isFallback) {
       elements.cityInput.value = "";
@@ -158,21 +156,54 @@ async function handleLocationSearch() {
 
 // 5) Wire up all buttons, toggles, selects
 function setupEventListeners() {
-  document.querySelector("#search-form").addEventListener("submit", (e) => {
-    e.preventDefault();
-    handleSearch();
-  });
+  // 0) Toggle‐logs button (register first)
+  const toggleBtn = document.querySelector("#toggle-logs-btn");
+  const devTools = document.querySelector("#dev-tools");
+  if (toggleBtn && devTools) {
+    // Make sure it starts hidden via the CSS class:
+    devTools.classList.add("hidden");
+    toggleBtn.textContent = "Show Logs";
 
+    toggleBtn.addEventListener("click", () => {
+      // toggle the CSS class:
+      const nowHidden = devTools.classList.toggle("hidden");
+      toggleBtn.textContent = nowHidden ? "Show Logs" : "Hide Logs";
+    });
+  }
+
+  // 1) Form submit → search
+  const searchForm = document.querySelector("#search-form");
+  if (searchForm) {
+    searchForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      handleSearch();
+    });
+  }
+
+  // 2) Location button
   elements.locationBtn.addEventListener("click", handleLocationSearch);
 
-  // — Unit toggle only re‑renders, no re‑fetch
-  elements.tempToggle.addEventListener("change", () => {
+  // 3) Unit toggle -> making api request with dif unit temperature
+  elements.tempToggle.addEventListener("change", async () => {
     saveUserPreferences(elements.tempToggle.checked, elements.langSelect.value);
     CONFIG.DEFAULT_UNITS = elements.tempToggle.checked ? "imperial" : "metric";
-    refreshWeather();
+
+    if (!lastCity) return; // No previous city? Do nothing.
+
+    showLoading();
+    hideError();
+    try {
+      const data = await getCurrentWeatherWithFallback(lastCity);
+      lastCity = data.name;
+      displayWeatherData(data);
+    } catch (err) {
+      showError(err.message);
+    } finally {
+      hideLoading();
+    }
   });
 
-  // — Language select re‑fetches the same lastCity
+  // 4) Language select
   elements.langSelect.addEventListener("change", async () => {
     saveUserPreferences(elements.tempToggle.checked, elements.langSelect.value);
     CONFIG.DEFAULT_LANG = elements.langSelect.value;
@@ -189,7 +220,7 @@ function setupEventListeners() {
     }
   });
 
-  // — Export logs
+  // 5) Export logs
   elements.exportLogsBtn?.addEventListener("click", () => {
     const json = logger.exportLogs();
     const blob = new Blob([json], { type: "application/json" });
@@ -202,9 +233,23 @@ function setupEventListeners() {
     logger.info("Logs exported");
     updateLogDisplay(logger.getLogs());
   });
+
+  // 6) Clear logs
+  elements.clearLogsBtn?.addEventListener("click", () => {
+    if (confirm("Are you sure you want to clear all logs?")) {
+      logger.clearLogs();
+      updateLogDisplay(logger.getLogs());
+
+      const confirmEl = document.createElement("div");
+      confirmEl.textContent = "✅ Logurile au fost șterse";
+      confirmEl.className = "log-clear-confirm";
+      elements.devTools.insertBefore(confirmEl, elements.logDisplay);
+      setTimeout(() => confirmEl.remove(), 2000);
+    }
+  });
 }
 
-// 6) App initialization
+// 7) App initialization
 async function initializeApp() {
   logger.info("Weather App starting…");
   setupEventListeners();

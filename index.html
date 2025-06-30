@@ -12,7 +12,6 @@
       <header>
         <h1>Weather App</h1>
       </header>
-
       <main>
         <!-- Search + controls form -->
         <form id="search-form" class="controls">
@@ -52,20 +51,44 @@
         <div id="loading" class="hidden"></div>
         <div id="error" class="hidden"></div>
 
-        <!-- weather display -->
-        <div id="weather-display" class="hidden">
-          <h2 id="city-name"></h2>
-          <p id="description"></p>
-          <p id="temp"></p>
-          <p id="feels-like"></p>
-          <p id="humidity"></p>
-          <p id="pressure"></p>
-          <p id="wind-speed"></p>
-          <p id="visibility"></p>
-          <p id="sunrise"></p>
-          <p id="sunset"></p>
-          <img id="icon" alt="Weather Icon" />
+        <div class="results-container">
+          <!-- weather display -->
+          <div id="weather-display" class="hidden">
+            <h2 id="city-name"></h2>
+            <p id="description"></p>
+            <p id="temp"></p>
+            <p id="feels-like"></p>
+            <p id="humidity"></p>
+            <p id="pressure"></p>
+            <p id="wind-speed"></p>
+            <p id="visibility"></p>
+            <p id="sunrise"></p>
+            <p id="sunset"></p>
+            <img id="icon" alt="Weather Icon" />
+          </div>
+
+          <!-- ───────────── Search History Panel ───────────── -->
+          <div id="history-section" class="history-section hidden">
+            <h3>Căutări recente</h3>
+            <div id="history-list" class="history-list"></div>
+            <button id="clear-history-btn" class="clear-history-btn">
+              Șterge istoricul
+            </button>
+          </div>
+          <!-- ────────────────────────────────────────────────── -->
         </div>
+
+        <!-- ─────────────── Dev Tools Panel ─────────────── -->
+        <div id="dev-tools" class="dev-tools hidden">
+          <h4>Developer Logs</h4>
+          <div id="log-display" class="log-display"></div>
+          <button id="clear-logs-btn">Clear Logs</button>
+          <button id="export-logs-btn">Export Logs</button>
+        </div>
+        <!-- ────────────────────────────────────────────────── -->
+
+        <!-- displayig logs, optional -->
+        <!-- <button id="export-logs-btn">Export Logs</button> -->
       </main>
     </div>
   </body>

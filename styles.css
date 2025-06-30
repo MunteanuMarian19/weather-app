@@ -2,6 +2,8 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .hidden {
@@ -23,8 +25,10 @@ button {
   border-radius: 5px;
   border: none;
 }
+
 input {
   padding: 9px;
+  max-width: -webkit-fill-available;
 }
 
 button {
@@ -40,12 +44,32 @@ button:hover {
   background-color: #0056b3;
 }
 
-#weather-display {
+#weather-display,
+#history-section {
   margin: auto;
-  width: fit-content;
+  margin-top: 0;
   border: 2px solid white;
   border-radius: 20px;
   padding: 15px;
+}
+
+/* Give each line in the weather display some vertical margin */
+#weather-display > * {
+  margin: 0.75rem 0;
+
+  background: rgba(255, 255, 255, 0.05);
+  padding: 0.5rem;
+  border-radius: 6px;
+}
+
+/* Prevent extra bottom margin on the very last element */
+#weather-display > *:last-child {
+  margin-bottom: 0;
+}
+
+#weather-display img {
+  display: block;
+  margin: 1rem auto;
 }
 
 #search-div {
@@ -157,4 +181,154 @@ button:hover {
 .switch input:checked ~ .unit-labels .label-f {
   opacity: 1;
   font-weight: bold;
+}
+
+/* Istoric de căutări */
+.history-section {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+  /* Safari */
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.history-section h3 {
+  margin-bottom: 1rem;
+  color: #fff;
+  font-size: 1.2rem;
+}
+
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.history-item:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateX(5px);
+}
+
+.history-location {
+  display: flex;
+  flex-direction: column;
+}
+
+.history-location .city {
+  font-weight: 600;
+  color: #fff;
+}
+
+.history-location .country {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.history-time {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.clear-history-btn {
+  width: 100%;
+  padding: 0.5rem;
+  background: rgba(255, 99, 99, 0.2);
+  color: #ff6363;
+  border: 1px solid rgba(255, 99, 99, 0.3);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.clear-history-btn:hover {
+  background: rgba(255, 99, 99, 0.3);
+}
+
+.no-history {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.6);
+  font-style: italic;
+  padding: 1rem;
+}
+
+/* Dev Tools (opțional) */
+.dev-tools {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 300px;
+  max-height: 200px;
+  background: rgba(0, 0, 0, 0.9);
+  color: #fff;
+  padding: 1rem;
+  border-radius: 8px;
+  font-family: "Courier New", monospace;
+  font-size: 0.8rem;
+  z-index: 1000;
+}
+
+.log-display {
+  max-height: 120px;
+  overflow-y: auto;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+/* ─── Results Two-Column Layout ─── */
+.results-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start; /* all panels’ tops line up */
+  gap: 2rem; /* spacing between panels */
+  margin-top: 2rem;
+}
+
+/* each panel flexes equally, up to 400px */
+.results-container > div {
+  flex: 1 1 300px; /* base 300px, grow/shrink equally */
+  max-width: 400px; /* never exceed 400px */
+  /* no explicit width, so both panels match */
+}
+
+/* ─── Stack on small screens ─── */
+@media (max-width: 600px) {
+  .history-section {
+    margin-top: 1rem;
+    padding: 1rem;
+  }
+
+  .history-item {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+
+  .dev-tools {
+    bottom: 10px;
+    right: 10px;
+    left: 10px;
+    width: auto;
+  }
+
+  .results-container {
+    flex-direction: column;
+    gap: 1.5rem; /* vertical spacing */
+  }
+
+  .results-container > div {
+    flex: none; /* don’t flex, use full width */
+    max-width: none;
+    width: 100%; /* ensure both are same width */
+  }
 }

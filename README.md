@@ -2,31 +2,31 @@
 
 A simple web application that shows the current weather for any city you enter or for your current location, with support for:
 
-- 🔍 Search by city name
-- 📍 Use your current location (GPS with IP fallback)
-- 🌐 Language selection (ro, en, fr, es, de)
-- 🌡️ Unit toggle between Celsius (°C) and Fahrenheit (°F)
-- 🔄 Graceful fallback to mock data when the API fails
-- 💾 Preference persistence (units & language in localStorage)
+- 🔍 Search by city name  
+- 📍 Use your current location (GPS with IP fallback)  
+- 🌐 Language selection (ro, en, fr, es, de)  
+- 🌡️ Unit toggle between Celsius (°C) and Fahrenheit (°F)  
+- 🔄 Graceful fallback to mock data when the API fails  
+- 💾 Preference persistence (units & language in localStorage)  
 
 ---
 
-## 🆕 New Features (Part 3)
+## 🆕 New Features (Part 6)
 
 ### 📍 Location History
 
-- **Recent searches**: Quick access to previously searched locations
-- **Smart duplicates**: Moves existing locations to the top
-- **Persistent storage**: History survives browser restarts
-- **Configurable limit**: Max 10 items stored
-- **One-click access**: Load weather by clicking a history item
+- **Recent searches**: Quick access to previously searched locations  
+- **Smart duplicates**: Moves an existing city to the top rather than duplicating  
+- **Persistent storage**: History survives page reloads and browser restarts  
+- **Configurable limit**: Stores up to 10 entries (configurable via `modules/config.js`)  
+- **One‑click access**: Click any history item to reload its weather  
 
 ### 📝 Logging Service
 
-- **Multiple levels**: Debug, Info, Warning, Error
-- **Structured format**: Includes timestamp, level, message, and data
-- **Memory management**: Configurable max log entries
-- **Developer tools**: Export logs for debugging
+- **Multiple levels**: Debug, Info, Warning, Error  
+- **Structured format**: Includes timestamp, level, message, and optional data payload  
+- **Memory management**: Configurable maximum log entries in memory  
+- **Developer tools**: On‑page log panel with “Clear Logs” (with confirmation) and “Export Logs”  
 
 ---
 
@@ -34,19 +34,18 @@ A simple web application that shows the current weather for any city you enter o
 
 ### Modular Architecture
 
-- `modules/logger.js` – Centralized logging system
-- `modules/history-service.js` – Location history management
-- `modules/config.js` – Extended configuration options
-- `modules/ui-controller.js` – Enhanced UI controller with history rendering
+- `modules/logger.js` – Centralized logging system  
+- `modules/history-service.js` – Search history management  
+- `modules/config.js` – App configuration (API, history limits, logging)  
+- `modules/ui-controller.js` – UI updates for history and logs  
 
 ### Data Persistence
 
-- `localStorage` used for:
-  - Weather unit preference
-  - Language preference
-  - Search history
-- Error handling for storage limits
-- JSON serialization used for storing complex data
+- **`localStorage`** for:
+  - Search history (`weather_search_history`)
+  - User preferences (`weather_unit_is_f`, `weather_lang`)
+- JSON‑serialize complex objects  
+- Error handling around storage quota limits  
 
 ---
 
@@ -54,36 +53,28 @@ A simple web application that shows the current weather for any city you enter o
 
 ### Location History
 
-1. Search for any city
-2. Look under the **Recent Searches** section
-3. Click any location to reload weather
-4. Use “Clear History” to wipe history
+1. Search for a city  
+2. View it in the **Recent Searches** panel  
+3. Click an item to reload its weather  
+4. Use **“Clear History”** to wipe your saved list  
 
 ### Developer Logs
 
-- Open **Dev Tools → Console** to see logs
-- Events use different log levels (debug, info, etc.)
-- Use the **Export Logs** button to download logs
+- Toggle the log panel with **“Show Logs”** / **“Hide Logs”**  
+- Use **“Clear Logs”** to erase them (with a confirmation dialog)  
+- Use **“Export Logs”** to download a `.json` file of all entries  
 
 ---
 
 ## 🚀 Features
 
 - 🔍 City Search  
-- 📍 Geolocation with fallback  
-- 🌐 Language selection  
-- 🌡️ Unit toggle (°C / °F)  
-- 🔄 Graceful fallback  
+- 📍 Geolocation (GPS/IP fallback)  
+- 🌐 Multi‑language descriptions  
+- 🌡️ Celsius/Fahrenheit toggle  
+- 🔄 Mock‑data fallback  
 - 💾 Preference persistence  
-
----
-
-## 🛠️ Tech Stack
-
-- Vanilla JavaScript (ES6 Modules)
-- Fetch API for HTTP requests
-- HTML5 & CSS3
-- LocalStorage for saving preferences
+- 🕘 **New:** Search history & in‑page logging panel  
 
 ---
 
@@ -91,3 +82,7 @@ A simple web application that shows the current weather for any city you enter o
 
 ```bash
 git clone https://github.com/MunteanuMarian19/weather-app.git
+cd weather-app
+# checkout your feature branch
+git checkout feature/history-location-logging-service
+# serve with Live Server or any static HTTP server

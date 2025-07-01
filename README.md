@@ -1,49 +1,93 @@
-Weather App 🌦️
+# Weather App 🌦️
+
 A simple web application that shows the current weather for any city you enter or for your current location, with support for:
 
-- Search by city name
-- Use your current location (GPS with IP fallback)
-- Language selection for descriptions (ro, en, fr, es, de)
-- Unit toggle between Celsius (°C) and Fahrenheit (°F)
-- Graceful error handling and fallback mock data when the API fails
-- Preference persistence (units & language stored in localStorage)
+- 🔍 Search by city name
+- 📍 Use your current location (GPS with IP fallback)
+- 🌐 Language selection (ro, en, fr, es, de)
+- 🌡️ Unit toggle between Celsius (°C) and Fahrenheit (°F)
+- 🔄 Graceful fallback to mock data when the API fails
+- 💾 Preference persistence (units & language in localStorage)
 
-🚀 Features
-🔍 City Search
-📍 Geolocation with automatic IP-based fallback
-🌐 Language Selector for weather descriptions
-🌡️ Unit Toggle (°C / °F)
-🔄 Graceful Degradation: falls back to mock data if API or network fails
-💾 User Preferences remembered between visits
-🛠️ Tech Stack:
-Vanilla JavaScript (ES6 Modules)
-Fetch API for HTTP requests
-HTML5 & CSS3
-LocalStorage for saving user preferences
+---
 
-📦 Installation
-Clone the repository
-git clone https://github.com/USERNAME/weather-app.git
-Install a simple HTTP server (e.g., Live Server in VS Code)
+## 🆕 New Features (Part 3)
 
-Open index.html using your HTTP server
+### 📍 Location History
 
-Enter a city name or click “Use my location”
+- **Recent searches**: Quick access to previously searched locations
+- **Smart duplicates**: Moves existing locations to the top
+- **Persistent storage**: History survives browser restarts
+- **Configurable limit**: Max 10 items stored
+- **One-click access**: Load weather by clicking a history item
 
-Switch units or language—your choice will persist on reload
+### 📝 Logging Service
 
-🗺️ Roadmap [x] Part 1: Project foundations & GitHub setup
+- **Multiple levels**: Debug, Info, Warning, Error
+- **Structured format**: Includes timestamp, level, message, and data
+- **Memory management**: Configurable max log entries
+- **Developer tools**: Export logs for debugging
 
-[x] Part 2: Mock data and modular JS architecture
+---
 
-[x] Part 3: Real API integration with error handling & fallback
+## 🛠️ Technical Implementation
 
-[x] Part 4: Geolocation service with GPS/IP fallback
+### Modular Architecture
 
-[x] Part 5: Unit & language controls + preference persistence
+- `modules/logger.js` – Centralized logging system
+- `modules/history-service.js` – Location history management
+- `modules/config.js` – Extended configuration options
+- `modules/ui-controller.js` – Enhanced UI controller with history rendering
 
-[ ] Part 6: (Next) Advanced animations & accessibility improvements
+### Data Persistence
 
-[ ] Part 7: (Future) Forecast view & caching
+- `localStorage` used for:
+  - Weather unit preference
+  - Language preference
+  - Search history
+- Error handling for storage limits
+- JSON serialization used for storing complex data
 
-👨‍💻 Author Marian Munteanu Practical homework project for the “Advanced JavaScript” course (Generation Tech / Digital Nation, June–July 2025) Passionate about technology and JavaScript.
+---
+
+## 🎯 Usage
+
+### Location History
+
+1. Search for any city
+2. Look under the **Recent Searches** section
+3. Click any location to reload weather
+4. Use “Clear History” to wipe history
+
+### Developer Logs
+
+- Open **Dev Tools → Console** to see logs
+- Events use different log levels (debug, info, etc.)
+- Use the **Export Logs** button to download logs
+
+---
+
+## 🚀 Features
+
+- 🔍 City Search  
+- 📍 Geolocation with fallback  
+- 🌐 Language selection  
+- 🌡️ Unit toggle (°C / °F)  
+- 🔄 Graceful fallback  
+- 💾 Preference persistence  
+
+---
+
+## 🛠️ Tech Stack
+
+- Vanilla JavaScript (ES6 Modules)
+- Fetch API for HTTP requests
+- HTML5 & CSS3
+- LocalStorage for saving preferences
+
+---
+
+## 📦 Installation
+
+```bash
+git clone https://github.com/MunteanuMarian19/weather-app.git

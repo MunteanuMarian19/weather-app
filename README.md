@@ -56,11 +56,38 @@ Weather App lets you:
 
 ---
 
+🏗️ Architecture:
+weather-app/
+├── index.html              # Entry point
+├── styles.css              # Styles
+├── app.js                  # Main orchestration
+└── modules/
+    ├── config.js           # Centralized config
+    ├── weather-service.js  # API integration
+    ├── location-service.js # Geolocation + fallback
+    ├── history-service.js  # Search history management
+    ├── logger.js           # Logging service
+    └── ui-controller.js    # DOM & UI updates
+
+---
+
+👨‍💻 Author
+Marian Munteanu
+
+GitHub: @your-username
+
+LinkedIn: your-profile
+
+Email: your.email@domain.com
+
+---
+
 ## 📦 Installation & Running Locally
 
 ### Prerequisites
 - Modern browser (Chrome, Firefox, Safari, Edge)  
 - Free OpenWeatherMap API key  
+
 
 ### Setup
 
@@ -76,3 +103,5 @@ cd weather-app
 npx http-server .
 
 # 4) In browser, navigate to http://localhost:8080
+
+

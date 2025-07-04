@@ -1,3 +1,5 @@
+console.time("app-init");
+
 import {
   elements,
   showLoading,
@@ -52,7 +54,9 @@ function loadHistoryOnStart() {
       try {
         const data = await getWeatherByCoord(lat, lon);
         lastCity = data.name;
+        console.time("ui-update");
         displayWeatherData(data);
+        console.timeEnd("ui-update");
         historyService.addLocation(data);
         renderHistory(historyService.getHistory());
       } catch (err) {
@@ -111,8 +115,17 @@ async function handleSearch() {
     renderHistory(historyService.getHistory());
     showHistory();
   } catch (err) {
-    logger.error("Failed to fetch weather", err);
-    showError(err.message);
+    // logger.error("Failed to fetch weather", err);
+    // showError(err.message);
+    +logger.error("Failed to fetch weather", err);
+
+    // If the API returned 404, err.message will be "City not found"
+    if (err.message === "City not found") {
+      showError("Orașul nu a fost găsit. Verifică ortografia și mai încearcă.");
+    } else {
+      // network error, bad key, etc.
+      showError(err.message);
+    }
   } finally {
     hideLoading();
     updateLogDisplay(logger.getLogs());
@@ -258,3 +271,5 @@ async function initializeApp() {
 }
 
 document.addEventListener("DOMContentLoaded", initializeApp);
+
+console.timeEnd("app-init");

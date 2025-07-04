@@ -1,5 +1,14 @@
+// detect whether we’re on localhost (development) or published (production)
+const isDev =
+  window.location.hostname === "localhost" ||
+  window.location.hostname === "127.0.0.1";
+
 export const CONFIG = {
-  API_KEY: "79554b545ec7afaa7fb38f12744cb15b",
+  // toggle between dev and prod keys (for now both are the same)
+  API_KEY: isDev
+    ? "79554b545ec7afaa7fb38f12744cb15b"
+    : "79554b545ec7afaa7fb38f12744cb15b",
+
   API_BASE_URL: "https://api.openweathermap.org/data/2.5",
   DEFAULT_UNITS: "metric",
   DEFAULT_LANG: "en",
@@ -15,9 +24,9 @@ export const CONFIG = {
 
   // Logging configuration
   LOGGING: {
-    ENABLED: true, // Turn logging on/off
+    // only enabled while developing locally
+    ENABLED: isDev,
     LEVEL: "info", // Minimum level to actually record
-    // (debug < info < warn < error)
     MAX_LOGS: 100, // How many entries we’ll keep in memory
   },
 };

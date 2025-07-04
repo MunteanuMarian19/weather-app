@@ -53,14 +53,24 @@ export async function getWeatherByCoord(lat, lon) {
   return await makeRequest(url);
 }
 
+// I eliminated this scenarios for a better UX, which is bellow
 /**
  * Tries the real API first; on any error, falls back to mock data.
  */
+// export async function getCurrentWeatherWithFallback(city) {
+//   try {
+//     return await getCurrentWeather(city);
+//   } catch (err) {
+//     console.warn("Falling back to mock data:", err.message);
+//     return { ...MOCK_DATA, name: city, isFallback: true };
+//   }
+// }
+
 export async function getCurrentWeatherWithFallback(city) {
   try {
     return await getCurrentWeather(city);
   } catch (err) {
-    console.warn("Falling back to mock data:", err.message);
-    return { ...MOCK_DATA, name: city, isFallback: true };
+    // re‑throw so the UI can show a “not found” error
+    throw err;
   }
 }

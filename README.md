@@ -82,6 +82,22 @@ Email: your.email@domain.com
 
 ---
 
+## 📄 Licență
+
+MIT License - vezi [LICENSE](https://www.notion.so/locospace/LICENSE) pentru detalii.
+
+## 🙏 Mulțumiri
+
+- [OpenWeatherMap](https://openweathermap.org/) pentru API gratuit
+- [IP API](https://ipapi.co/) pentru servicii de geolocation
+- Instructorii și colegii pentru feedback
+
+---
+
+⭐ **Dacă îți place proiectul, oferă-i o stea pe GitHub!**
+
+---
+
 ## 📦 Installation & Running Locally
 
 ### Prerequisites

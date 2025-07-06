@@ -35,10 +35,20 @@ export const API_ENDPOINTS = {
   CURRENT_WEATHER: "/weather",
 };
 
+// // English
+// export const ERROR_MESSAGES = {
+//   CITY_NOT_FOUND: "City not found",
+//   NETWORK_ERROR: "Network error. Check your connection.",
+//   UNKNOWN_ERROR: "An error occurred fetching weather.",
+// };
+
+// Romanian
 export const ERROR_MESSAGES = {
-  CITY_NOT_FOUND: "City not found",
-  NETWORK_ERROR: "Network error. Check your connection.",
-  UNKNOWN_ERROR: "An error occurred fetching weather.",
+  CITY_NOT_FOUND: "Orașul nu a fost găsit.",
+  NETWORK_ERROR:
+    "Nu s-a putut realiza conexiunea. Verifică-ți internetul și încearcă din nou.",
+  UNKNOWN_ERROR:
+    "A apărut o problemă la preluarea datelor meteo. Te rugăm să încerci din nou mai târziu.",
 };
 
 // Mock data (used only as fallback):

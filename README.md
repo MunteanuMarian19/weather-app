@@ -71,11 +71,11 @@ Scopul proiectului a fost învățarea modului în care putem construi o aplica�
 
 ### Search Results View
 
-![Search Screenshot](./assets/Capture2.PNG)
+![Search Screenshot](./assets/Capture1.PNG)
 
 ### Desktop View
 
-![Home Screenshot](./assets/Capture3.PNG)
+![Home Screenshot](./assets/Capture2.PNG)
 
 ---
 ## Project Structure

@@ -27,6 +27,25 @@ import { getCoords } from "./modules/location-service.js";
 import { logger } from "./modules/logger.js";
 import { historyService } from "./modules/history-service.js";
 
+/**
+ * Hide the entire “Dev Tools” panel and its toggle button
+ * whenever logging is disabled (i.e. in production).
+ */
+function maybeHideDevTools() {
+  if (!CONFIG.LOGGING.ENABLED) {
+    // your buttons in index.html have these IDs:
+    const toggle = document.getElementById("toggle-logs-btn");
+    const panel = document.getElementById("dev-tools");
+    if (toggle) toggle.style.display = "none";
+    if (panel) panel.style.display = "none";
+  }
+}
+
+// —————————————————————————————————————
+//  On load: maybe hide the logs UI
+// —————————————————————————————————————
+maybeHideDevTools();
+
 // Keep track of the last city we successfully fetched
 let lastCity = null;
 

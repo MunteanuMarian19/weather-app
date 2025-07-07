@@ -8,7 +8,6 @@ import {
   showMessage,
   hideError,
   displayWeatherData,
-  refreshWeather,
   saveUserPreferences,
   loadUserPreferences,
   showHistory,
@@ -42,7 +41,7 @@ function maybeHideDevTools() {
 }
 
 // —————————————————————————————————————
-//  On load: maybe hide the logs UI
+//  On load: hide the logs UI
 // —————————————————————————————————————
 maybeHideDevTools();
 

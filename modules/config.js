@@ -26,7 +26,7 @@ export const CONFIG = {
   LOGGING: {
     // only enabled while developing locally
     ENABLED: isDev,
-    LEVEL: "info", // Minimum level to actually record
+    LEVEL: "info", // Minimum level to actually record + 'debug', 'info', 'warn', 'error'
     MAX_LOGS: 100, // How many entries we’ll keep in memory
   },
 };

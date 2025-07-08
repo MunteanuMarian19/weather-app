@@ -93,10 +93,38 @@ function _render(data, isFahrenheit) {
   elements.feelsLike.textContent = `Feels like: ${feelsVal}${symbol}`;
   elements.humidity.textContent = `Humidity: ${data.main.humidity}%`;
   elements.pressure.textContent = `Pressure: ${data.main.pressure} hPa`;
-  elements.wind.textContent = `Wind: ${(data.wind.speed * 3.6).toFixed(
-    1
-  )} km/h`;
-  elements.visibility.textContent = `Visibility: ${data.visibility} m`;
+
+  // CHANGES - EXPLANATIONS
+  // changing imperial units to metric caused changes in wind speed to, km to miles and so on
+  // and that's why this previous commented code had to be replaced with a new updated one
+  // so changing Celsius to Fahrenheit, imperial to metric, won't affect the wind speed too,
+  // so it remains in km/h
+
+  // old code:
+  // elements.wind.textContent = `Wind: ${(data.wind.speed * 3.6).toFixed(
+  //   1
+  // )} km/h`;
+
+  // new code — wind: convert back to km/h correctly based on API units
+  //   API returns wind.speed in m/s for metric, mph for imperial
+  let windKmh;
+  if (isFahrenheit) {
+    // data.wind.speed is in miles/hour → *1.609 to get km/h
+    windKmh = (data.wind.speed * 1.609).toFixed(1);
+  } else {
+    // data.wind.speed is in m/s → *3.6 to get km/h
+    windKmh = (data.wind.speed * 3.6).toFixed(1);
+  }
+  elements.wind.textContent = `Wind: ${windKmh} km/h`;
+  // old code:
+  // elements.visibility.textContent = `Visibility: ${data.visibility} m`;
+
+  // new code — visibility: always convert meters → kilometers
+  const visKmRaw = data.visibility / 1000;
+  // trim trailing zeros
+  const visKm = visKmRaw.toFixed(3).replace(/\.?0+$/, "");
+  elements.visibility.textContent = `Visibility: ${visKm} km`;
+
   elements.sunrise.textContent = `Sunrise: ${new Date(
     data.sys.sunrise * 1000
   ).toLocaleTimeString()}`;

@@ -116,6 +116,8 @@ function _render(data, isFahrenheit) {
     windKmh = (data.wind.speed * 3.6).toFixed(1);
   }
   elements.wind.textContent = `Wind: ${windKmh} km/h`;
+
+  // ===================================================================
   // old code:
   // elements.visibility.textContent = `Visibility: ${data.visibility} m`;
 
